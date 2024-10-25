@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>¡Teclado Rápido! ⌨️</title>
+<title>¡Teclado Rápido! ⌨️ - Nivel dificil</title>
 <style>
   :root {
     color-scheme: light dark;
@@ -89,12 +89,10 @@
   }
 
   @keyframes blink {
-
     0%,
     25% {
       opacity: 1;
     }
-
     75% {
       opacity: 0;
     }
@@ -141,8 +139,9 @@
       font-size: 15px;
     }
   }
-  main section button a{
+  main section button a {
     font-size: 15px;
+    padding: 10px;
     color: #fff;
     font-family: sans-serif;
   }
@@ -151,7 +150,7 @@
 <body>
   <main>
     <section id="game">
-      <h1>Teclado rápido</h1>
+      <h1>¡Teclado Rápido! ⌨️ - Nivel dificil</h1>
       <time></time>
       <p></p>
       <input autofocus>
@@ -162,6 +161,12 @@
 
       <h2>Aciertos</h2>
       <h3 id="results-accuracy"></h3>
+
+      <h2>Errores</h2>
+      <h3 id="results-errors"></h3>
+
+      <h2>Porcentaje de Errores</h2>
+      <h3 id="results-error-percentage"></h3>
 
       <button id="reload-button">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -175,11 +180,12 @@
         <a id="before-level" style="color:#fff" href="index copy.html">Nivel Anterior</a>
       </button>
     </section>
+    <img src="../../Img/image.jpg" width="600px" alt="">
   </main>
 </body>
 
 <script type="module">
-  import { words as INITIAL_WORDS } from './data.js'
+  import { words as INITIAL_WORDS } from './data copy 2.js'
 
   const $time = document.querySelector('time');
   const $paragraph = document.querySelector('p');
@@ -188,9 +194,11 @@
   const $results = document.querySelector('#results')
   const $wpm = $results.querySelector('#results-wpm')
   const $accuracy = $results.querySelector('#results-accuracy')
+  const $errors = $results.querySelector('#results-errors')
+  const $errorPercentage = $results.querySelector('#results-error-percentage')
   const $button = document.querySelector('#reload-button')
 
-  const TIME = 30;
+  const TIME = 60;
 
   let words = []
   let currentTime = TIME
@@ -351,14 +359,16 @@
     const correctLetter = $paragraph.querySelectorAll('letter.correct').length
     const incorrectLetter = $paragraph.querySelectorAll('letter.incorrect').length
 
-    const totalLetters = correctLetter + incorrectLetter
+    const totalLetters = correctLetter + incorrectLetter;
 
-    const accuracy = totalLetters > 0
-      ? (correctLetter / totalLetters) * 100
-      : 0
+    const accuracy = totalLetters > 0 ? (correctLetter / totalLetters) * 100 : 0;
+    const errors = incorrectLetter; // Total de errores
+    const errorPercentage = totalLetters > 0 ? (incorrectLetter / totalLetters) * 100 : 0; // Porcentaje de errores
 
-    const wpm = correctWords * 60 / TIME
-    $wpm.textContent = wpm
-    $accuracy.textContent = `${accuracy.toFixed(2)}%`
+    const wpm = correctWords * 60 / TIME;
+    $wpm.textContent = wpm;
+    $accuracy.textContent = `${accuracy.toFixed(2)}%`;
+    $errors.textContent = errors; // Mostrar errores
+    $errorPercentage.textContent = `${errorPercentage.toFixed(2)}%`; // Mostrar porcentaje de errores
   }
 </script>
